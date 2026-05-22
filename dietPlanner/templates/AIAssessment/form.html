@@ -1,0 +1,89 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<div class="assessment-container">
+
+    <div class="assessment-card">
+        <div class="container">
+
+
+            <div class="assessment-header">
+                <span class="coach-title">AI Coach</span>
+                <span class="coach-score">The Day's Score: {{ ai_assessment.score }}</span>
+            </div>
+
+
+            <!-- Score
+            <div class="card score-card">
+                <div class="score-value">{{ ai_assessment.score }}</div>
+                <!--<div class="score-confidence">
+                    Confidence: {{ (ai_assessment.confidence * 100) | round(0) }}%
+                </div>
+            </div> -->
+
+
+    <div class="card split-card">
+        <div>
+            <h4>📊 Yesterday Summary</h4>
+
+            <ul>
+                {% for line in ai_assessment.yesterday_summary.split('|') %}
+                {% if line.strip() %}
+                <li>{{ line.strip() }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Split -->
+    <div class="card split-card">
+        <div>
+            <h4>✔ What went well</h4>
+            <ul>
+                {% for item in ai_assessment.what_went_well %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            <h4>❌ What needs improving</h4>
+            <ul>
+                {% for item in ai_assessment.what_needs_improving %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Focus -->
+    <div class="card split-card">
+        <div>
+            <h4>🎯 Today’s Focus</h4>
+            <ul>
+                {% for item in ai_assessment.today_focus %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Motivation -->
+    <div class="card">
+        <h3>💬 Motivation</h3>
+        <p class="quote">“{{ ai_assessment.motivation }}”</p>
+    </div>
+
+    <a href="{{ url_for('dashboard.dashboard', date=log_date) }}" class="card-btn">
+        Back to Dashboard
+    </a>
+
+</div>
+
+    </div>
+
+</div>
+
+{% endblock %}

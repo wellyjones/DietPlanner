@@ -1,0 +1,55 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<div class="card-actions">
+    <a href="/workoutLog/list?date={{ log_date }}" class="card-btn">← Back to Workouts</a>
+</div>
+
+<form method="post" action="{{ form_action }}">
+    <input type="hidden" name="log_date" value="{{ log_date }}">
+
+    <div class="card">
+        <div class="card-content">
+            <h3>{{ 'Edit Workout' if workout else 'Add Workout' }}</h3>
+
+            <div class="form-group">
+                <label>Workout Type</label>
+                <input type="text" name="workout_type"
+                       value="{{ workout.workout_type if workout else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Duration (minutes)</label>
+                <input type="number" name="duration_min"
+                       value="{{ workout.duration_min if workout else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Calories Burned</label>
+                <input type="number" name="calories"
+                       value="{{ workout.calories if workout else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Run Distance (miles)</label>
+                <input type="number" step="0.01" name="distance_miles"
+                       value="{{ workout.distance_miles if workout else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Run Pace</label>
+                <input type="text" name="pace"
+                       placeholder="e.g. 7:45"
+                       value="{{ workout.pace if workout else '' }}">
+            </div>
+        </div>
+
+        <div class="card-actions">
+            <button type="submit" class="card-btn">
+                Save and return to workouts
+            </button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

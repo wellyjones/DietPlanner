@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<br />
+<div class="card-actions">
+    <a href="/?date={{ log_date }}" class="card-btn">
+        ← Back to Dashboard
+    </a>
+</div>
+
+<h1>Workouts — {{ log_date }}</h1>
+
+<div class="card-actions">
+    <a href="/workoutLog/new?date={{ log_date }}" class="card-btn">
+        + Add workout
+    </a>
+</div>
+
+
+{% if workouts|length == 0 %}
+<p>No workouts logged for this day.</p>
+{% else %}
+<div class="workout-list">
+    {% for w in workouts %}
+    <div class="card">
+        <div class="card-content">
+            <h3>{{ w.type }}</h3>
+            <div class="meta">
+                {% if w.duration %}{{ w.duration }} min{% endif %}
+                {% if w.calories %} · {{ w.calories }} cal{% endif %}
+            </div>
+
+            {% if w.distance or w.pace %}
+            <div class="meta">
+                {% if w.distance %}{{ w.distance }} miles{% endif %}
+                {% if w.pace %} · Pace {{ w.pace }}{% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+
+        <div class="card-actions">
+            <a href="/workoutLog/edit/{{ w.id }}?date={{ log_date }}" class="card-btn">
+                Edit
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

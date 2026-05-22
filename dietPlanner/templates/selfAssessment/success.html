@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<h1>Saved ✅</h1>
+
+<p>Self assessment saved for {{ request.args.get('date', '') }}</p>
+
+<a href="/selfAssessment?date={{ request.args.get('date', '') }}">Back</a>
+
+{% endblock %}

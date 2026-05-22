@@ -1,0 +1,53 @@
+
+{% extends "layout/base.html" %}
+{% block content %}
+
+<div class="card-actions">
+    <a href="/?date={{ log_date }}" class="card-btn">
+        ← Back to Dashboard
+    </a>
+</div>
+
+<div class="card">
+    <form method="post" action="/foodLog/new">
+        <div class="card-content">
+            <h3>Food Log</h3>
+
+            <input type="hidden" name="food_date" value="{{ log_date }}">
+
+            <div class="form-group">
+                <label>Breakfast</label>
+                <textarea name="breakfast" rows="3">{{ food_log.breakfast if food_log else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Lunch</label>
+                <textarea name="lunch" rows="3">{{ food_log.lunch if food_log else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Dinner</label>
+                <textarea name="dinner" rows="3">{{ food_log.dinner if food_log else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Snacks</label>
+                <textarea name="snacks" rows="3">{{ food_log.snacks if food_log else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Liquids</label>
+                <textarea name="liquid" rows="3">{{ food_log.liquid if food_log else '' }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="card-actions">
+            <button type="submit" class="card-btn">
+                Save and return to dashboard
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

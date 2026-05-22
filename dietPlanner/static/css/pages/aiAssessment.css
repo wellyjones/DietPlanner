@@ -1,0 +1,116 @@
+.page-title {
+    margin-bottom: 1rem;
+}
+
+/* Score card */
+.score-card {
+    text-align: center;
+    padding: 1rem;
+}
+
+.score-value {
+    font-size: 1.5rem;
+    font-weight: 650;
+    color: var(--accent);
+}
+
+.score-confidence {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+
+.split-card {
+    display: grid;
+    grid-template-columns: 1fr; /* ✅ stack */
+    gap: 1rem;
+}
+
+    .split-card > div {
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+        .split-card > div:last-child {
+            border-bottom: none;
+        }
+
+
+/* Focus card highlight */
+.focus-card {
+    border-left: 4px solid var(--accent);
+}
+
+/* Quote styling */
+.quote {
+    font-style: italic;
+    color: var(--text-primary);
+}
+.assessment-container {
+    padding: 0.75rem;
+}
+
+.assessment-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.assessment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.coach-title {
+    font-weight: 700;
+}
+
+.coach-score {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.assessment-section {
+    margin-top: 1rem;
+}
+
+    .assessment-section h3,
+    .assessment-section h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.4rem;
+    }
+
+.assessment-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.assessment-list {
+    padding-left: 1.1rem;
+    margin: 0;
+}
+
+    .assessment-list li {
+        margin-bottom: 0.3rem;
+    }
+
+.assessment-quote {
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-top: 0.25rem;
+    background: #f9fafb;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.assessment-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 0.75rem 0;
+}

@@ -1,0 +1,217 @@
+{% extends "layout/base.html" %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <div class="dashboard-header">
+        <a href="/?date={{ prev_date }}">←</a>
+
+        <div class="dashboard-date">{{ current_date }}</div>
+
+        {% if next_date %}
+        <a href="/?date={{ next_date }}">→</a>
+        {% else %}
+        <span class="arrow-disabled">→</span>
+        {% endif %}
+    </div>
+
+    <div class="card-grid">
+        <!-- Body Stats -->
+        <div class="card">
+            <div class="card-content">
+                <h3>Body Stats</h3>
+
+                <ul class="checklist">
+                    <li class="{{ 'done' if body_stats.weight else 'missing' }}">
+                        Weight
+                    </li>
+                    <li class="{{ 'done' if body_stats.sleep else 'missing' }}">
+                        Sleep
+                    </li>
+                    <li class="{{ 'done' if body_stats.steps else 'missing' }}">
+                        Steps
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-actions">
+                <a href="/dailyLog/?date={{ current_date }}" class="card-btn">
+                    {{ 'Edit' if body_stats.exists else 'Add' }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Food Log -->
+        <div class="card">
+            <div class="card-content">
+                <h3>Food Log</h3>
+
+                <ul class="checklist">
+                    <li class="{{ 'done' if food_log.breakfast else 'missing' }}">
+                        Breakfast
+                    </li>
+                    <li class="{{ 'done' if food_log.lunch else 'missing' }}">
+                        Lunch
+                    </li>
+                    <li class="{{ 'done' if food_log.dinner else 'missing' }}">
+                        Dinner
+                    </li>
+                    <li class="{{ 'done' if food_log.snacks else 'missing' }}">
+                        Snacks
+                    </li>
+                    <li class="{{ 'done' if food_log.liquid else 'missing' }}">
+                        Liquids
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="card-actions">
+                <a href="/foodLog/?date={{ current_date }}" class="card-btn">
+                    {{ 'Edit' if food_log.exists else 'Add' }}
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Workouts -->
+        <div class="card">
+            <div class="card-content">
+                <h3>Workouts</h3>
+
+                {% if workouts.has_workout %}
+                <div class="workout-status">
+                    <span class="workout-icon">🏃</span>
+                    <span class="workout-count">
+                        {{ workouts.count }} workout{{ 's' if workouts.count != 1 else '' }}
+                    </span>
+                </div>
+                {% else %}
+                <div class="workout-status">
+                    <span class="workout-icon">🧘</span>
+                    <span class="workout-count">Rest day</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- ✅ MUST be a sibling -->
+            <div class="card-actions workout-actions">
+                <a href="/workoutLog/new?date={{ current_date }}" class="card-btn">
+                    Add
+                </a>
+
+                {% if workouts.has_workout %}
+                <a href="/workoutLog/list?date={{ current_date }}" class="card-btn">
+                    View
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Self Assessment -->
+        <div class="card">
+            <div class="card-content">
+                <h3>Self Assessment</h3>
+                {% if self_assessment.exists %}
+                <span class="status-text status-complete">
+                    Completed
+                </span>
+                {% else %}
+                <span class="status-text status-missing">
+                    Not completed
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="card-actions">
+                <a href="/selfAssessment?date={{ current_date }}" class="card-btn">
+                    {{ 'Edit' if self_assessment.exists else 'Add' }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% if ai_assessment %}
+    <div class="coach-section-wrapper">
+
+        <details class="coach-reveal">
+            <summary class="coach-summary">
+                <span class="coach-title">AI Coach</span>
+                <span class="coach-score">{{ ai_assessment.score }}</span>
+                <span class="coach-toggle"></span>
+            </summary>
+
+            <div class="card coach-card">
+                <div class="card-content">
+
+                    <div class="coach-block">
+                        <div class="coach-label">Yesterday Summary</div>
+                        <div class="coach-text">
+                            {{ ai_assessment.yesterday_summary }}
+                        </div>
+                    </div>
+
+                    <div class="coach-block">
+                        <div class="coach-label">Today’s Focus 🎯</div>
+                        <ul class="coach-list">
+                            {% for item in ai_assessment.today_focus %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="coach-block">
+                        <div class="coach-label">Motivation</div>
+                        <div class="coach-quote">
+                            “{{ ai_assessment.motivation }}”
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('dashboard.view_assessment', date=current_date) }}"
+                       class="secondary-action-btn">
+                        View Full Assessment
+                    </a>
+                </div>
+            </div>
+
+        </details>
+
+    </div>
+    {% endif %}
+
+    <!-- Primary CTA -->
+    {% if not has_ai_result %}
+    <form method="post" action="/submit">
+        <input type="hidden" name="log_date" value="{{ current_date }}">
+
+        <button type="submit" class="primary-action-btn">
+            <span class="status-text status-missing">
+                Submit Today's Logs →
+            </span>
+        </button>
+    </form>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <br />
+    <div class="flash-container">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+</div>
+
+{% endblock %}

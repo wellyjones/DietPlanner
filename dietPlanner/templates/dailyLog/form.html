@@ -1,0 +1,45 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<div class="card-actions">
+    <a href="/?date={{ log_date }}" class="card-btn">
+        ← Back to Dashboard
+    </a>
+</div>
+
+<div class="card">
+    <form method="post" action="/dailyLog/new">
+        <div class="card-content">
+
+            <h3 class="section-title">Daily Log</h3><br />
+
+            <input type="hidden" name="log_date" value="{{ log_date }}">
+
+            <div class="form-group">
+                <label>Weight (kg)</label>
+                <input type="number" step="0.1" name="weight"
+                       value="{{ daily_log.weight if daily_log else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Sleep Score</label>
+                <input type="number" name="sleep"
+                       value="{{ daily_log.sleep if daily_log else '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Steps</label>
+                <input type="number" name="steps"
+                       value="{{ daily_log.steps if daily_log else '' }}">
+            </div>
+        </div>
+
+        <div class="card-actions">
+            <button type="submit" class="card-btn">
+                Save and return to dashboard
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
